@@ -1,15 +1,29 @@
-const express=require("express")
-const router= express.Router()
+const axios= require('axios')
+const express=require('express')
+const router=express.Router()
 
-router.post("/standup",(req,res)=>{
+router.post("/standup",async(req,res)=>{
     const body={
-        text:req.text,
-        user_name:req.user_name
+        updates:req.body.text,
+        user:req.body.user_name
     }
-    console.log(req.body,body   )
+    try {
+        console.log("11", body);
+        const aiResponse=await axios.post("http://localhost:8000/summary",body);
+        const summary=aiResponse.data.summary;
+        
+        res.json({
+            response_type:"in_channel",
+            text:`🤖 *Summary for ${body.user}*:\n${summary}`
+        })
+    } catch (error) {
+        console.error("AI service error",error.message);
 
-    res.send()
-
+        res.json({
+            response_type:"ephemeral",
+            text:"🚨 Something went wrong while summarizing your standup. Please try again."
+        })
+    }   
 })
 
-module.exports=router;
+module.exports=router;  
