@@ -8,10 +8,11 @@ router.post("/standup",async(req,res)=>{
         user:req.body.user_name
     }
     try {
-        console.log("11", body);
+        // console.log("11", body);
         const aiResponse=await axios.post("http://localhost:8000/summary",body);
         const summary=aiResponse.data.summary;
         
+        console.log(aiResponse.data)
         res.json({
             response_type:"in_channel",
             text:`🤖 *Summary for ${body.user}*:\n${summary}`
