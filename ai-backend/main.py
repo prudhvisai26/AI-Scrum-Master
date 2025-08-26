@@ -11,8 +11,7 @@ load_dotenv()
 # Initialize FastAPI app
 app=FastAPI()
 
-# Set your OpenAI API key from the environment
-client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+# client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 #Load the llm model 
 llm=Llama(
